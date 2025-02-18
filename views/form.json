@@ -1,0 +1,19 @@
+[
+    "@languageTabs",
+    {
+        "xtype": "container",
+        "defaults": {
+            "xtype": "displayfield",
+            "labelWidth": 107,
+            "labelAlign": "right"
+        },
+        "items": [
+            {
+                "xtype": "checkbox",
+                "ui": "switch",
+                "fieldLabel": "#enabled",
+                "name": "enabled"
+            }
+        ]
+    }
+]
