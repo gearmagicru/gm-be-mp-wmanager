@@ -1,0 +1,111 @@
+/*!
+ * Сетка (Grid).
+ *
+ * Расширение "Менеджер виджетов".
+ * Модуль "Маркетплейс"
+ * 
+ * Шаблон значка: Axialis Flat Pro 2017 / Basic / piece
+ * 
+ * Copyright 2015 Вeб-студия GearMagic
+ * Copyright Anton Tivonenko <anton.tivonenko@gmail.com>
+ * https://gearmagic.ru/license/
+ */
+
+/* Заливка заднего фона сетки (см. идент. viewManager) */
+#gm-mp-wmanager-grid .x-grid-view {
+    background: url("../images/watermark.svg") no-repeat calc(100% - 25px) calc(100% - 20px);
+    background-size: 100px;
+}
+
+
+/**
+ * Ячейки сетки.
+ */
+.gm-mp-wmanager-grid-cell-i {
+    position: relative;
+    padding-left: 46px;
+    min-height: 64px;
+}
+.gm-mp-wmanager-grid-cell-i.g-cell-lock { opacity: 0.45; }
+.gm-mp-wmanager-grid-cell-i__icon {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 32px;
+    height: 32px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.gm-mp-wmanager-grid-cell-i__name { font-size: 14px; margin-bottom: 4px; }
+.gm-mp-wmanager-grid-cell-i__desc { color: #666666; font-size: 12px; }
+.gm-mp-wmanager-grid-cell-i__dets { color: #666666; font-size: 14px; }
+.gm-mp-wmanager-grid-cell-i__dets span { color: #4D82B8; }
+.gm-mp-wmanager-grid-td_offset { vertical-align: middle; }
+
+
+/**
+ * Статусы виджета для каждой строки.
+ */
+/* не установлены */
+.gm-mp-wmanager-grid-row_notinstalled .x-grid-cell-inner-action-col,
+.gm-mp-wmanager-grid-row_notinstalled .g-icon_gridcolumn-menu { display: none; }
+
+
+/**
+ * Панель инструментов сетки.
+ */
+/* Значок "Установить" (Install) */
+.gm-mp-wmanager__icon-install_large,
+.gm-mp-wmanager__icon-install_medium,
+.gm-mp-wmanager__icon-install { background-image: url("../images/icon-install.svg"); }
+.gm-mp-wmanager__icon-install_small { background-image: url("../images/icon-install_small.svg"); }
+/* Значок "Добавить" (Add) */
+.gm-mp-wmanager__icon-add_large,
+.gm-mp-wmanager__icon-add_medium,
+.gm-mp-wmanager__icon-add { background-image: url("../images/icon-add.svg"); }
+.gm-mp-wmanager__icon-add_small { background-image: url("../images/icon-add_small.svg"); }
+/* Значок "Демонтаж" (Unmount) */
+.gm-mp-wmanager__icon-unmount_large,
+.gm-mp-wmanager__icon-unmount_medium,
+.gm-mp-wmanager__icon-unmount { background-image: url("../images/icon-unmount.svg"); }
+.gm-mp-wmanager__icon-unmount_small { background-image: url("../images/icon-unmount_small.svg"); }
+/* Значок "Удалить" (Delete) */
+.gm-mp-wmanager__icon-delete_large,
+.gm-mp-wmanager__icon-delete_medium,
+.gm-mp-wmanager__icon-delete { background-image: url("../images/icon-delete.svg"); }
+.gm-mp-wmanager__icon-delete_small { background-image: url("../images/icon-delete_small.svg"); }
+/* Значок "Удалить" (Uninstall) */
+.gm-mp-wmanager__icon-uninstall_large,
+.gm-mp-wmanager__icon-uninstall_medium,
+.gm-mp-wmanager__icon-uninstall { background-image: url("../images/icon-uninstall.svg"); }
+.gm-mp-wmanager__icon-uninstall_small { background-image: url("../images/icon-uninstall_small.svg"); }
+/* Значок "Обновить" (Update) */
+.gm-mp-wmanager__icon-update-config_large,
+.gm-mp-wmanager__icon-update-config_medium,
+.gm-mp-wmanager__icon-update-config { background-image: url("../images/icon-update-config.svg"); }
+.gm-mp-wmanager__icon-update-config_small { background-image: url("../images/icon-update-config_small.svg"); }
+/* Значок "Скачать" (Download) */
+.gm-mp-wmanager__icon-download_large,
+.gm-mp-wmanager__icon-download_medium,
+.gm-mp-wmanager__icon-download { background-image: url("../images/icon-download.svg"); }
+.gm-mp-wmanager__icon-download_small { background-image: url("../images/icon-download_small.svg"); }
+/* Значок "Загрузчить" (Upload) */
+.gm-mp-wmanager__icon-upload_large,
+.gm-mp-wmanager__icon-upload_medium,
+.gm-mp-wmanager__icon-upload { background-image: url("../images/icon-upload.svg"); }
+.gm-mp-wmanager__icon-upload_small { background-image: url("../images/icon-upload_small.svg"); }
+
+
+/**
+ * Статусы виджетов.
+ */
+ .gm-mp-wmanager__status {
+    padding: 5px 5px 5px 5px;
+    border-radius: 2px;
+    min-width: 100px;
+    display: block;
+}
+.gm-mp-wmanager__status_installed { background-color: #f1f1f1; color: #217346; }
+.gm-mp-wmanager__status_not-installed { background-color: #f1f1f1; color: #4d81b8; }
+.gm-mp-wmanager__status_broken { background-color: #f1f1f1; color: #cd4c32; }

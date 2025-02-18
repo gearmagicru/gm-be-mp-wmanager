@@ -1,0 +1,31 @@
+/*!
+ * Установка виджета (Install).
+ *
+ * Расширение "Менеджер виджетов".
+ * Модуль "Маркетплейс"
+ *
+ * Copyright 2015 Вeб-студия GearMagic
+ * Copyright Anton Tivonenko <anton.tivonenko@gmail.com>
+ * https://gearmagic.ru/license/
+ */
+
+/**
+ * Уведомление об ошибке в параметрах виджета.
+ */
+#gm-mp-wmanager-iform .notice {
+    display: block;
+    line-height: 1.2;
+    padding: 12px 10px;
+    font-size: 13px;
+    color: #cd4c32;
+    background-color: #ffece8;
+}
+/* требование */
+#gm-mp-wmanager-iform .required {
+    display: inline-block;
+    border-radius: 100%;
+    background-color: #cd4c32;
+    width: 8px;
+    height: 8px;
+    margin-left: 3px;
+}
