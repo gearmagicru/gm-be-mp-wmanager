@@ -10,7 +10,6 @@
 namespace Gm\Backend\Marketplace\WidgetManager\Model;
 
 use Gm;
-use Gm\Db\Sql;
 use Gm\Panel\Data\Model\Combo\ComboModel;
 
 /**
@@ -27,25 +26,48 @@ class WidgetCombo extends ComboModel
      * {@inheritdoc}
      */
     protected array $allowedKeys = [
-        'id'       => 'id',
-        'widgetId' => 'widget_id'
+        'id'    => 'id',
+        'rowId' => 'rowId'
     ];
 
     /**
      * {@inheritdoc}
+     * 
+     * Для определения порядкового номера сортировки.
      */
-    public function getDataManagerConfig(): array
+    protected array $sort = [
+        'id'    => 0,
+        'rowId' => 0,
+        'name'  => 1,
+        'desc'  => 2
+    ];
+
+    /**
+     * Порядковый номер сортировки.
+     * 
+     * @var int
+     */
+    protected int $sortIndex = 1;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function init(): void
     {
-        return [
-            'tableName'  => '{{widget_locale}}',
-            'primaryKey' => 'widget_id',
-            'searchBy'   => 'name',
-            'order'      => ['name' => 'ASC'],
-            'fields'     => [
-                ['name', 'direct' => 'widl.name'],
-                ['description']
-            ]
-        ];
+        /** @var \Gm\Http\Request $request */
+        $request = Gm::$app->request;
+
+        // добавление записи "без выбора"
+        $noneRow = $request->getQuery('noneRow', null);
+        if ($noneRow !== null) {
+            $this->useNoneRow = $noneRow == 1;
+        }
+        // определение порядкового номера сортировки
+        $sort = $request->getQuery('sort', 'name');
+        $this->sortIndex = $this->sort[$sort] ?? $this->sortIndex;
+        // уникальный ключ записи
+        $key = Gm::$app->request->getQuery($this->keyParam);
+        $this->key = $this->allowedKeys[$key] ?? 'id';
     }
 
     /**
@@ -53,37 +75,33 @@ class WidgetCombo extends ComboModel
      */
     public function selectAll(string $tableName = null): array
     {
-        /** @var \Gm\Db\Sql\Select $select */
-        $select = $this->builder()->select();
-        $select
-            ->columns(['id', 'widget_id', 'name', 'description'])
-            ->quantifier(new Sql\Expression('SQL_CALC_FOUND_ROWS'))
-            ->from(['wid' => '{{widget}}'])
-            ->join(
-                ['widl' => '{{widget_locale}}'],
-                'widl.widget_id = wid.id AND widl.language_id = ' . (int) Gm::$app->language->code,
-                ['loName' => 'name', 'loDescription' => 'description'],
-                $select::JOIN_LEFT
-            );
-
-        /** @var \Gm\Db\Adapter\Driver\AbstractCommand $command */
-        $command = $this->buildQuery($select);
-        $rows = $this->fetchRows($command);
-        $rows = $this->afterFetchRows($rows);
-        return $this->afterSelect($rows, $command);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function afterFetchRow(array $row, array &$rows): void
-    {
-        if ($row['loName']) {
-            $row['name'] = $row['loName'];
+        $rows = [];
+        if ($this->useNoneRow) {
+            $rows[] = $this->noneRow();
         }
-        if ($row['loDescription']) {
-            $row['description'] = $row['loDescription'];
+
+        /** @var \Gm\WidgetManager\WidgetRegistry $registry */
+        $registry = Gm::$app->widgets->getRegistry();
+        /** @var array $list */
+        $list = $registry->getListInfo();
+        if ($list) {
+            foreach ($list as $row) {
+                $rows[] = [
+                    $row[$this->key],
+                    $row['name'], 
+                    $row['description'], 
+                    $row['smallIcon']
+                ];
+            }
         }
-        $rows[] = [$row[$this->key], $row['name'], $row['description']];
+
+        usort($rows, function (array $a, array $b) {
+            return $a[$this->sortIndex] <=> $b[$this->sortIndex];
+        });
+
+        return [
+            'total' => sizeof($rows),
+            'rows'  => $rows
+        ];
     }
 }
